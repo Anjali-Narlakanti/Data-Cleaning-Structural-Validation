@@ -1,0 +1,24 @@
+import pandas as pd
+
+# Load dataset
+df = pd.read_csv("data/employee_data.csv")
+
+# Remove duplicates
+df = df.drop_duplicates()
+
+# Fill missing values
+df["Age"] = df["Age"].fillna(df["Age"].mean())
+df["Salary"] = df["Salary"].fillna(df["Salary"].mean())
+df["Department"] = df["Department"].fillna(df["Department"].mode()[0])
+
+# Clean text
+df["Name"] = df["Name"].str.strip().str.title()
+df["Email"] = df["Email"].str.lower()
+
+# Convert date format
+df["Joining_Date"] = pd.to_datetime(df["Joining_Date"])
+
+# Save cleaned dataset
+df.to_csv("data/cleaned_employee_data.csv", index=False)
+
+print("Data Cleaning Completed Successfully!")
